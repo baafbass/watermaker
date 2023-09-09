@@ -1,11 +1,13 @@
 import PyPDF2
+import sys
 
-with open('dummy.pdf','rb') as file: # we use 'rb' because we want to read a binary. The pdf is in a format of binary
-	reader = PyPDF2.PdfFileReader(file)
-	page = reader.getPage(0)
-	page.rotateCounterClockwise(90)
+inputs =  sys.argv[1:]
 
-	writer = PyPDF2.PdfFileWriter()
-	writer.addPage(page)
-	with open('tilt.pdf','wb') as new_file:
-		writer.write(new_file)
+
+def pdf_combiner(pdf_list):
+	merger = PyPDF2.PdfFileMerger()
+	for pdf in pdf_list:
+		merger.append(pdf)
+	merger.write('super.pdf')
+
+pdf_combiner(inputs)
